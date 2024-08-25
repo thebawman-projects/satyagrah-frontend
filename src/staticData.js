@@ -1,4 +1,4 @@
-import terms from './images/terms.pdf'
+
 
 export const footerProductLinks = [
     {
@@ -17,10 +17,6 @@ export const footerProductLinks = [
       name: "Achivements",
       link: "/"
     },
-    // {
-    //   name: "Terms & Conditions",
-    //   link: {terms}
-    // },
   ];
   
   export const footercompanyLinks = [
