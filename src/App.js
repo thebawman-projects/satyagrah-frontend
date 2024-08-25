@@ -19,8 +19,8 @@ import { PaymentsAdmin } from './Admin/PaymentsAdmin';
 import { LeadsAdmin } from './Admin/LeadsAdmin';
 
 // axios.defaults.baseURL = 'https://satyagrah-backend-thebawman.onrender.com'
-axios.defaults.baseURL = 'http://localhost:4001'
-// axios.defaults.baseURL = 'https://satyagrahbackend-4ycxknrp.b4a.run/'
+// axios.defaults.baseURL = 'http://localhost:4001'
+axios.defaults.baseURL = 'https://satyagrahbackend-4ycxknrp.b4a.run/'
 axios.defaults.withCredentials = true
 
 function App() {
