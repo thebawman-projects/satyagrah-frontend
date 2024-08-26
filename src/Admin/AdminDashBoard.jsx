@@ -276,10 +276,10 @@ data && data.forEach((element,index,array)=>{
           <div onClick={toggleModal} className="overlay"></div>
           <div className="modal-content bg-white rounded-xl">
             <div className="container mx-auto p-4">
-              <h1 className="text-3xl text-center text-white font-bold border-b-4 border-dotted border-white">
+              <h1 className="text-3xl text-center text-black font-bold border-b-4 border-dotted border-black">
                 Student Data
               </h1>
-              <table className="table-auto w-full mt-4 text-white">
+              <table className="table-auto w-full mt-4 text-black">
                 <tbody>
                   <tr>
                     <td className="border px-4 border-black border-1px italic">Course</td>
