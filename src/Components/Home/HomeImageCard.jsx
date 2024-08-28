@@ -7,6 +7,7 @@ import homeImg6 from '../../images/homesliderimg6.jpg'
 import homeImg7 from '../../images/homesliderimg7.jpeg'
 
 import homeImg9 from '../../images/homesliderimg9.jpeg'
+import homeImg10 from '../../images/homesliderimg10.jpeg'
 
 import homeImg11 from '../../images/homesliderimg11.jpg'
 import homeImg12 from '../../images/homesliderimg12.jpeg'
@@ -28,6 +29,7 @@ function HomeImageCard() {
     { img: homeImg6 },
 
     { img: homeImg11 },
+    { img: homeImg10 },
     { img: homeImg12 },
     { img: homeImg21 },
     { img: homeImg13 },
