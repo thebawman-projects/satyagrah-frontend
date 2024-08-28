@@ -1,5 +1,3 @@
-import terms from './images/terms.pdf'
-
 export const footerProductLinks = [
     {
       name: "Home",
