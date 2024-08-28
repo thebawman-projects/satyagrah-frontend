@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const FooterAdmin = () => {
   return (
@@ -9,6 +10,8 @@ const FooterAdmin = () => {
             Developed By @TheBawMan
             </a>
           </h2>
+          <Link to='/register'>
+          <button>Register</button></Link>
         </nav>
 
   )

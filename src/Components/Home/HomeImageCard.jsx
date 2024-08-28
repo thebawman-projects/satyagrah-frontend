@@ -3,15 +3,14 @@ import homeImg1 from '../../images/homesliderimg1.jpeg'
 import homeImg2 from '../../images/homesliderimg2.jpeg'
 import homeImg3 from '../../images/homesliderimg3.jpeg'
 import homeImg4 from '../../images/homesliderimg4.jpg'
-import homeImg5 from '../../images/homesliderimg5.jpg'
 import homeImg6 from '../../images/homesliderimg6.jpg'
 import homeImg7 from '../../images/homesliderimg7.jpeg'
-import homeImg8 from '../../images/homesliderimg8.jpeg'
+
 import homeImg9 from '../../images/homesliderimg9.jpeg'
-import homeImg10 from '../../images/homesliderimg10.jpeg'
+
 import homeImg11 from '../../images/homesliderimg11.jpg'
 import homeImg12 from '../../images/homesliderimg12.jpeg'
-import homeImg13 from '../../images/homesliderimg13.jpg'
+import homeImg13 from '../../images/homesliderimg13.jpeg'
 import homeImg21 from '../../images/homesliderimg21.jpg'
 
 
@@ -22,17 +21,17 @@ function HomeImageCard() {
     { img: homeImg3 },
    
     { img: homeImg7 },
-    { img: homeImg8 },
+
     { img: homeImg9 },
     { img: homeImg4 },
-    { img: homeImg5 },
+   
     { img: homeImg6 },
-    { img: homeImg10 },
+
     { img: homeImg11 },
     { img: homeImg12 },
     { img: homeImg21 },
     { img: homeImg13 },
-    { img: homeImg8 },
+
 
   ]
 

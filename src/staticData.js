@@ -1,5 +1,3 @@
-import terms from './images/terms.pdf'
-
 export const footerProductLinks = [
     {
       name: "Home",
@@ -17,10 +15,6 @@ export const footerProductLinks = [
       name: "Achivements",
       link: "/"
     },
-    // {
-    //   name: "Terms & Conditions",
-    //   link: {terms}
-    // },
   ];
   
   export const footercompanyLinks = [
@@ -54,7 +48,7 @@ export const footerProductLinks = [
       name: "Near RBL Bank Raghunathpur, Motihari",
     },
     {
-      name: "Bihar - 845433",
+      name: "Bihar - 845401",
     },
     {
       name: "satyagraheducationalgroup@gmail.com"
