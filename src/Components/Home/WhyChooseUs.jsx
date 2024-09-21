@@ -6,7 +6,7 @@ export const WhyChooseUs = () => {
     <div className=" py-12 bg-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">Why Choose Us</h2>
-        <p className='text-xs mx-[5rem] align-center items-center mb-16'>Choose Satyagrah Educational & Charitable Trust and it’s constituent units for an exceptional learning experience that prepares you for a rewarding career in safety. With expert faculty, practical training, and a strong focus on industry needs, we empower you to become a competent and confident safety professional.</p>
+        <p className='text-xs align-center items-center mb-16'>Choose Satyagrah Educational & Charitable Trust and it’s constituent units for an exceptional learning experience that prepares you for a rewarding career in safety. With expert faculty, practical training, and a strong focus on industry needs, we empower you to become a competent and confident safety professional.</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center">
             <div className="w-16 h-16 mx-auto bg-green-500 rounded-full flex items-center justify-center mb-4">
