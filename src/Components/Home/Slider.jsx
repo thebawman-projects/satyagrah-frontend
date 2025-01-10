@@ -2,10 +2,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "../../App.css";
 import Banner1 from '../../images/banner1.png'
 import Banner2 from '../../images/banner2.png'
-import Banner3 from '../../images/banner3.png'
-import Banner4 from '../../images/banner4.png'
+import Banner3 from '../../images/updateSlide101.png'
+import Banner4 from '../../images/updateSlide103.png'
 import Banner5 from '../../images/banner5.png'
 import Banner6 from '../../images/banner6.png'
+import Banner7 from '../../images/updateSlide102.png'
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -27,6 +28,9 @@ export default function Slider() {
        modules={[Pagination, Navigation, Autoplay]} className="mySwiper">
         <SwiperSlide>
           <img src={Banner1} alt="Banner" />
+        </SwiperSlide>
+         <SwiperSlide>
+          <img src={Banner7} alt="Banner" />
         </SwiperSlide>
         <SwiperSlide>
           <img src={Banner6} alt="Banner" />
