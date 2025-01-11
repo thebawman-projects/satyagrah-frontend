@@ -2,11 +2,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "../../App.css";
 import Banner1 from '../../images/banner1.png'
 import Banner2 from '../../images/banner2.png'
-import Banner3 from '../../images/updateSlide101.png'
-import Banner4 from '../../images/updateSlide103.png'
+import Banner3 from '../../images/updatedBanner101.jpg'
+import Banner4 from '../../images/updatedBanner102.jpg'
 import Banner5 from '../../images/banner5.png'
 import Banner6 from '../../images/banner6.png'
-import Banner7 from '../../images/updateSlide102.png'
+import Banner7 from '../../images/updatedBanner103.jpg'
 import "swiper/css";
 import "swiper/css/navigation";
 
