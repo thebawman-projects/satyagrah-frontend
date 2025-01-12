@@ -56,7 +56,7 @@ export const footerProductLinks = [
       name: "satyagraheducationalgroup@gmail.com"
     },
     {
-      name: "+91 8877456111",
+      name: "+91 8877456111 , +91 7667102184",
     },
   ];
   
