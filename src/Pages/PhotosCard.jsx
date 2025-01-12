@@ -1,4 +1,6 @@
 import React from 'react';
+import Footer from '../Components/Footer'
+import Navbar from '../Components/Navbar/Navbar'
 import image1 from '../images/galleryImage1.jpg'
 import image2 from '../images/galleryImage2.jpg'
 import image3 from '../images/galleryImage3.jpg'
@@ -45,6 +47,7 @@ const photos = [
 ];
 
 const PhotosCard = () => (
+  <Navbar />
   <div className="min-h-screen bg-gray-100 py-8 px-4">
     <h1 className="text-3xl md:text-4xl font-bold text-center mb-8">Our Memories</h1>
     <div className="container mx-auto px-4">
@@ -57,6 +60,7 @@ const PhotosCard = () => (
       </div>
     </div>
   </div>
+  <Footer/>
 );
 
 export default PhotosCard;
