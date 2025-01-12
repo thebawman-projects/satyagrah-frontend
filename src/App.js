@@ -5,6 +5,7 @@ import "./App.css";
 import HomePage from './Pages/HomePage';
 import AboutUs from './Pages/AboutUs';
 import University from './Pages/University';
+import PhotosCard from './Pages/PhotosCard';
 import Login from './Admin/Login';
 import Register from './Admin/Register';
 import axios from 'axios';
@@ -34,6 +35,7 @@ function App() {
             <Route path='*' element={<NotFound />} />
             <Route path='/' element={<HomePage />} />
             <Route path='/about' element={<AboutUs />} />
+            <Route path='/photos' element={<PhotosCard />} />
             <Route path='/university' element={<University />} />
             <Route path='/login' element={<Login />} />
             <Route path='/about' element={<AboutUs />} />
