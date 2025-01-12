@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "../../App.css";
-import Banner1 from '../../images/banner1.png'
+import Banner1 from '../../images/updatedBanner104.jpeg'
 import Banner2 from '../../images/banner2.png'
 import Banner3 from '../../images/updatedBanner101.jpg'
 import Banner4 from '../../images/updatedBanner102.jpg'
