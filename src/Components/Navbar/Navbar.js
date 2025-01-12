@@ -18,7 +18,7 @@ return (
             <li><a href='/'>Home</a></li>
             <li><a href='/courses'>Courses</a></li>
             <li><a href='/university'>University</a></li>
-            {/* <li><a href='/chairman'>Chairman</a></li> */}
+            <li><a href='/photos'>Gallery</a></li> 
             <li><a href='/about'>AboutUs</a></li>
             <a href='/registration'><button className='px-4 rounded ml-2 bg-blue-300 py-2'>Registration</button></a>
         </ul>
