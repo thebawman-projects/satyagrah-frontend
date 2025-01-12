@@ -1,25 +1,10 @@
 import React from 'react'
-import homeImg1 from '../../images/homesliderimg1.jpeg'
-import homeImg2 from '../../images/homesliderimg2.jpeg'
-import homeImg3 from '../../images/homesliderimg3.jpeg'
-import homeImg4 from '../../images/homesliderimg4.jpeg'
-import homeImg6 from '../../images/homesliderimg6.jpeg'
-import homeImg7 from '../../images/homesliderimg7.jpeg'
-
-import homeImg9 from '../../images/homesliderimg9.jpeg'
-import homeImg10 from '../../images/homesliderimg10.jpeg'
-
-import homeImg11 from '../../images/homesliderimg11.jpeg'
-import homeImg12 from '../../images/homesliderimg12.jpeg'
-import homeImg13 from '../../images/homesliderimg13.jpeg'
-
-import homeImg21 from '../../images/homesliderimg21.jpeg'
-
-import homeImg14 from '../../images/homesliderimg14.jpeg'
-import homeImg15 from '../../images/homesliderimg15.jpeg'
-import homeImg16 from '../../images/homesliderimg16.jpeg'
-import homeImg17 from '../../images/homesliderimg17.jpeg'
-import homeImg18 from '../../images/homesliderimg18.jpeg'
+import homeImg1 from '../../images/imgHome1.png'
+import homeImg2 from '../../images/imgHome2.png'
+import homeImg3 from '../../images/imgHome3.png'
+import homeImg4 from '../../images/imgHome4.png'
+import homeImg5 from '../../images/imgHome5.png'
+import homeImg6 from '../../images/imgHome6.png'
 
 
 function HomeImageCard() {
@@ -27,26 +12,9 @@ function HomeImageCard() {
     { img: homeImg1 },
     { img: homeImg2 },
     { img: homeImg3 },
-   
-    { img: homeImg7 },
-
-    { img: homeImg9 },
     { img: homeImg4 },
-   
+    { img: homeImg5 },
     { img: homeImg6 },
-
-    { img: homeImg11 },
-    { img: homeImg10 },
-    { img: homeImg12 },
-    { img: homeImg21 },
-    { img: homeImg13 },
-    { img: homeImg14 },
-    { img: homeImg15 },
-    { img: homeImg16 },
-    { img: homeImg17 },
-    { img: homeImg18 },
-
-
   ]
 
   return (
