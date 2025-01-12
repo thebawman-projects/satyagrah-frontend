@@ -88,93 +88,93 @@ const photos = [
   { src: image19, alt: 'Memory 1' },
   { src: image20, alt: 'Memory 1' },
 
-  { src: image21, alt: 'Memory 1' }
+  { src: image21, alt: 'Memory 1' },
 
-{ src: image22, alt: 'Memory 1' }
+{ src: image22, alt: 'Memory 1' },
 
-{ src: image23, alt: 'Memory 1' }
+{ src: image23, alt: 'Memory 1' },
 
-{ src: image24, alt: 'Memory 1' }
+{ src: image24, alt: 'Memory 1' },
 
-{ src: image25, alt: 'Memory 1' }
+{ src: image25, alt: 'Memory 1' },
 
-{ src: image26, alt: 'Memory 1' }
+{ src: image26, alt: 'Memory 1' },
 
-{ src: image27, alt: 'Memory 1' }
+{ src: image27, alt: 'Memory 1' },
 
-{ src: image28, alt: 'Memory 1' }
+{ src: image28, alt: 'Memory 1' },
 
-{ src: image29, alt: 'Memory 1' }
+{ src: image29, alt: 'Memory 1' },
 
-{ src: image30, alt: 'Memory 1' }
+{ src: image30, alt: 'Memory 1' },
 
-{ src: image31, alt: 'Memory 1' }
+{ src: image31, alt: 'Memory 1' },
 
-{ src: image32, alt: 'Memory 1' }
+{ src: image32, alt: 'Memory 1' },
 
-{ src: image33, alt: 'Memory 1' }
+{ src: image33, alt: 'Memory 1' },
 
-{ src: image34, alt: 'Memory 1' }
+{ src: image34, alt: 'Memory 1' },
 
-{ src: image35, alt: 'Memory 1' }
+{ src: image35, alt: 'Memory 1' },
 
-{ src: image36, alt: 'Memory 1' }
+{ src: image36, alt: 'Memory 1' },
 
-{ src: image37, alt: 'Memory 1' }
+{ src: image37, alt: 'Memory 1' },
 
-{ src: image38, alt: 'Memory 1' }
+{ src: image38, alt: 'Memory 1' },
 
-{ src: image39, alt: 'Memory 1' }
+{ src: image39, alt: 'Memory 1' },
 
-{ src: image40, alt: 'Memory 1' }
+{ src: image40, alt: 'Memory 1' },
 
-{ src: image41, alt: 'Memory 1' }
+{ src: image41, alt: 'Memory 1' },
 
-{ src: image42, alt: 'Memory 1' }
+{ src: image42, alt: 'Memory 1' },
 
-{ src: image43, alt: 'Memory 1' }
+{ src: image43, alt: 'Memory 1' },
 
-{ src: image44, alt: 'Memory 1' }
+{ src: image44, alt: 'Memory 1' },
 
-{ src: image45, alt: 'Memory 1' }
+{ src: image45, alt: 'Memory 1' },
 
-{ src: image46, alt: 'Memory 1' }
+{ src: image46, alt: 'Memory 1' },
 
-{ src: image47, alt: 'Memory 1' }
+{ src: image47, alt: 'Memory 1' },
 
-{ src: image48, alt: 'Memory 1' }
+{ src: image48, alt: 'Memory 1' },
 
-{ src: image49, alt: 'Memory 1' }
+{ src: image49, alt: 'Memory 1' },
 
-{ src: image50, alt: 'Memory 1' }
+{ src: image50, alt: 'Memory 1' },
 
-{ src: image51, alt: 'Memory 1' }
+{ src: image51, alt: 'Memory 1' },
 
-{ src: image52, alt: 'Memory 1' }
+{ src: image52, alt: 'Memory 1' },
 
-{ src: image53, alt: 'Memory 1' }
+{ src: image53, alt: 'Memory 1' },
 
-{ src: image54, alt: 'Memory 1' }
+{ src: image54, alt: 'Memory 1' },
 
-{ src: image55, alt: 'Memory 1' }
+{ src: image55, alt: 'Memory 1' },
 
-{ src: image56, alt: 'Memory 1' }
+{ src: image56, alt: 'Memory 1' },
 
-{ src: image57, alt: 'Memory 1' }
+{ src: image57, alt: 'Memory 1' },
 
-{ src: image58, alt: 'Memory 1' }
+{ src: image58, alt: 'Memory 1' },
 
-{ src: image59, alt: 'Memory 1' }
+{ src: image59, alt: 'Memory 1' },
 
-{ src: image60, alt: 'Memory 1' }
+{ src: image60, alt: 'Memory 1' },
 
-{ src: image61, alt: 'Memory 1' }
+{ src: image61, alt: 'Memory 1' },
 
-{ src: image62, alt: 'Memory 1' }
+{ src: image62, alt: 'Memory 1' },
 
-{ src: image63, alt: 'Memory 1' }
+{ src: image63, alt: 'Memory 1' },
 
-{ src: image64, alt: 'Memory 1' }
+{ src: image64, alt: 'Memory 1' },
   
 ];
 
