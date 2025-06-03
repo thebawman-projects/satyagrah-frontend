@@ -28,9 +28,18 @@ const HomePage = () => {
     <JSCounter/>
     <CourseHome />
     <RegistrationLinkCard />
+
+  <YouTubeVideoCards videos={[
+  "https://www.youtube.com/embed/DzwVjQu5wP4",
+  "https://www.youtube.com/embed/-8HDlm7HTdY",
+  "https://www.youtube.com/embed/MXMi9P74gFw",
+  "https://www.youtube.com/embed/wuBlbheokd0",
+  "https://www.youtube.com/embed/m3nqeOBjFGc",
+  "https://www.youtube.com/embed/0ALqHnK_d7k",
+]}/>
+      
     <MentorSection />
-<WhyChooseUs />
-      <YouTubeVideoCards/>
+    <WhyChooseUs />
     <HomeImageCard />
     <University />
     <Reviews />
