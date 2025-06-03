@@ -48,6 +48,9 @@ const YouTubeVideoCards = ({ videos }) => {
 
   return (
     <div className="w-full px-4 py-6 mx-auto">
+       <div className="conatainer">
+        <p className="common-heading regulatory text-gray-600 md:text-3xl sm:text-2xl p-2 ml-[-2rem] md:ml-2"> Our Latest Activities</p>
+      </div>
       <div 
         ref={containerRef}
         className="grid grid-flow-col auto-cols-[90vw] sm:auto-cols-[45vw] lg:auto-cols-[30vw] gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide"
