@@ -13,6 +13,7 @@ import CourseHome from '../Components/Home/CourseHome'
 import { WhyChooseUs } from '../Components/Home/WhyChooseUs'
 import { ApplySteps } from '../Components/Home/ApplySteps'
 import Popup from '../Components/Home/Popup'
+import YouTubeVideoCards from '../Components/YouTubeVideoCards'
 
 
 const HomePage = () => {
@@ -29,6 +30,7 @@ const HomePage = () => {
     <RegistrationLinkCard />
     <MentorSection />
 <WhyChooseUs />
+      <YouTubeVideoCards/>
     <HomeImageCard />
     <University />
     <Reviews />
