@@ -14,6 +14,7 @@ import { WhyChooseUs } from '../Components/Home/WhyChooseUs'
 import { ApplySteps } from '../Components/Home/ApplySteps'
 import Popup from '../Components/Home/Popup'
 import YouTubeVideoCards from '../Components/YouTubeVideoCards'
+import FacebookEmbedPosts from '../Components/FacebookEmbedPosts'
 
 
 const HomePage = () => {
@@ -29,14 +30,36 @@ const HomePage = () => {
     <CourseHome />
     <RegistrationLinkCard />
 
-  <YouTubeVideoCards videos={[
+
+
+{/* FOR YOUTUBE VIDEOS */}
+
+
+    <YouTubeVideoCards videos={[
   "https://www.youtube.com/embed/DzwVjQu5wP4",
   "https://www.youtube.com/embed/-8HDlm7HTdY",
   "https://www.youtube.com/embed/MXMi9P74gFw",
   "https://www.youtube.com/embed/wuBlbheokd0",
   "https://www.youtube.com/embed/m3nqeOBjFGc",
   "https://www.youtube.com/embed/0ALqHnK_d7k",
+
 ]}/>
+
+{/* FOR FACEBOOK POSTS */}
+
+
+<FacebookEmbedPosts postUrls = {[
+    'https://www.facebook.com/permalink.php?story_fbid=pfbid02jVaDTC1FCJz8PRuvCzEv2jCfbsqPbfMbHbyPWNBgxtZr4xR7UQ69AKyWUz1u1Qekl&id=100064861366081',
+    'https://www.facebook.com/permalink.php?story_fbid=pfbid02KBTCgLsG651ddErEGy7nkjmwzyYLLATM7tbYwFKiSdygyN5ZDhPYPYcnKnezWc7Zl&id=100064861366081',
+    'https://www.facebook.com/permalink.php?story_fbid=pfbid0hZJjQ536GK3fwhU22XaP3nNRDtsNiuWUwdwK8PCudHUu724an5ZHeAaYqjdJNzUbl&id=100064861366081',
+    'https://www.facebook.com/permalink.php?story_fbid=pfbid022y3XMAqwu4ucH9XwkMcsvzEHub8Chj19Uj8gzQUdFVyjheHzomJkRPbifmM6Mk8Pl&id=100064861366081',
+    'https://www.facebook.com/permalink.php?story_fbid=pfbid0p9m2YaUjaJMHdHpSjRVHR7kyxB8Q6NRnTo2TcyjxyCpsS7J3enUuWhRi1gsbY9LWl&id=100064861366081',
+    'https://www.facebook.com/permalink.php?story_fbid=pfbid02bkPhycnCp8noeewqTk5xTDtY55pa4VZuy23bUJGK4cfnc78q66QM1xB1ymAXoFeMl&id=100064861366081',
+    
+  ]}/>
+
+
+
       
     <MentorSection />
     <WhyChooseUs />
