@@ -10,11 +10,12 @@ import JSCounter from '../Components/JSCounter'
 import HomeImageCard from '../Components/Home/HomeImageCard'
 import RegistrationLinkCard from '../Components/Home/RegistrationLinkCard'
 import CourseHome from '../Components/Home/CourseHome'
-import { WhyChooseUs } from '../Components/Home/WhyChooseUs'
-import { ApplySteps } from '../Components/Home/ApplySteps'
+import WhyChooseUs from '../Components/Home/WhyChooseUs'
+import  ApplySteps  from '../Components/Home/ApplySteps'
 import Popup from '../Components/Home/Popup'
 import YouTubeVideoCards from '../Components/YouTubeVideoCards'
 import FacebookEmbedPosts from '../Components/FacebookEmbedPosts'
+import BrochureDownload from "../Components/Home/BrochureDownload";
 
 
 const HomePage = () => {
@@ -26,9 +27,10 @@ const HomePage = () => {
     <Navbar />
     <Popup className="absolute z-20"/>
     <Slider  />
-    <JSCounter/>
-    <CourseHome />
-    <RegistrationLinkCard />
+     <CourseHome />
+      <JSCounter />
+      <RegistrationLinkCard />
+      <BrochureDownload />
 
 
 
