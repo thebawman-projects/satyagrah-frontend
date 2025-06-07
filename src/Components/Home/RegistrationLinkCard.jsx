@@ -1,22 +1,92 @@
 import React from 'react';
-import lab from '../../images/lab1.jpg'
-import { Link } from "react-router-dom";
+import { motion } from 'framer-motion';
+import { FaRocket, FaGlobeAmericas, FaUserTie, FaChartLine } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const RegistrationLinkCard = () => {
+  const careerPaths = [
+    {
+      icon: <FaUserTie className="text-2xl" />,
+      title: "Government Services",
+      desc: "Comprehensive preparation for civil & defense services",
+      color: "bg-blue-600"
+    },
+    {
+      icon: <FaGlobeAmericas className="text-2xl" />,
+      title: "Global Careers",
+      desc: "Placement support for international opportunities",
+      color: "bg-purple-600"
+    },
+    {
+      icon: <FaChartLine className="text-2xl" />,
+      title: "Corporate Careers",
+      desc: "Pathways to dream jobs at top MNCs",
+      color: "bg-teal-600"
+    },
+    {
+      icon: <FaRocket className="text-2xl" />,
+      title: "Entrepreneurship",
+      desc: "Guidance to launch your own venture",
+      color: "bg-amber-600"
+    }
+  ];
+
   return (
-    <div className="flex flex-col md:flex-row items-center bg-gray-100 p-6">
-      <div className="w-full md:w-1/2 relative">
-        <div className="absolute inset-0 bg-orange-500 transform -skew-y-6"></div>
-        <div className="relative z-10 flex items-center justify-center h-96">
-          <img src={lab} alt="Graphic Element" className="object-cover h-full w-full" />
+    <section className="bg-white pt-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+          {/* Content */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Giving <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Wings</span> to Your Career
+            </h2>
+            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+              Under the guidance of our expert faculty and global alumni network, we propel students toward success. Whether preparing for government services, landing MNC jobs, or launching startups, SATYAGRAH provides the perfect launchpad for your career trajectory.
+            </p>
+            <Link to="/courses">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:shadow-xl transition-all duration-300 shadow-md"
+            >
+              View Courses
+            </motion.button>
+            </Link>
+          </motion.div>
+
+          {/* Career Path Cards */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-2 gap-4"
+          >
+            {careerPaths.map((path, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ y: -5 }}
+                className={`p-6 rounded-xl ${path.color} text-white shadow-lg hover:shadow-xl transition-all duration-300`}
+              >
+                <div className="w-12 h-12 rounded-lg mb-4 bg-white/20 flex items-center justify-center">
+                  {path.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-2">{path.title}</h3>
+                <p className="text-white/90">{path.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
+
+        {/* Alumni Network Section */}
+       
       </div>
-      <div className="w-full md:w-1/2 p-6 bg-white">
-        <h1 className="text-4xl font-bold mb-4">Giving Wings to Your Career</h1>
-        <p className="text-lg mb-2">Under the guidance of our trained faculty and with the support of our alumni network from different parts of the globe we have been supplementing the careers of students. Be it preparation for government & defense services, getting a dream job at MNC’s, or starting up your own venture SATYAGRAH gives you the right direction towards a successful career trek.</p>
-        <Link to="/courses"><button className="homeregbutton text-[1rem] bg-blue-950 text-white">View Courses</button></Link>
-      </div>
-    </div>
+    </section>
   );
 };
 
