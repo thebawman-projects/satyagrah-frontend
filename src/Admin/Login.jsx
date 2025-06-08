@@ -131,7 +131,7 @@ export default function Login() {
                 </label>
               </div>
               <div className="text-sm">
-                <a href="#" className="font-medium text-blue-400 hover:text-blue-300">
+                <a href="https://github.com/TheBawMan" className="font-medium text-blue-400 hover:text-blue-300">
                   Forgot password?
                 </a>
               </div>
@@ -162,9 +162,11 @@ export default function Login() {
 
             <div className="text-center text-sm text-white/60">
               Don't have an account?{' '}
+              <a href="https://github.com/TheBawMan">
               <span className="font-medium text-blue-400 hover:text-blue-300 cursor-pointer">
                 Contact Admin
               </span>
+                </a>
             </div>
           </form>
         </div>
