@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Navbar from '../Components/Navbar/Navbar'
 import Footer from '../Components/Footer'
-import CourseHead from '../Components/Courses/CourseHead'
+import CourseCard from '../Components/Courses/CourseCard'
 
 const Courses = () => {
   useEffect(() => {
