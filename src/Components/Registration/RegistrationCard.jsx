@@ -1,19 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import axios from "axios";
-import './Registration.css'
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { jsPDF } from 'jspdf'
-import imgForm from '../../images/imgForm.png'
-import qrpay from '../../images/qr.png'
-import { IoMdClose } from 'react-icons/io'
-import { FiCopy } from 'react-icons/fi'
-
+import { jsPDF } from 'jspdf';
+import imgForm from '../../images/imgForm.png';
+import qrpay from '../../images/qr.png';
+import { IoMdClose } from 'react-icons/io';
+import { FiCopy } from 'react-icons/fi';
 
 export const RegistrationCard = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState(null);
+  const [modal, setModal] = useState(false);
 
   const [formData, setFormData] = useState({
     course: "",
@@ -32,53 +31,18 @@ export const RegistrationCard = () => {
     mobile: "",
     alternatemobile: "",
     state: "",
-  })
+  });
 
   const [paymentData, setPaymentData] = useState({
     name: "",
     paydate: "",
     mobile: "",
     upi: "",
-  })
-
-  // For Payment 
-
-  const [modal, setModal] = useState(false);
+  });
 
   const toggleModal = () => {
     setModal(!modal);
-  };
-
-  if (modal) {
-    document.body.classList.add("active-modal");
-  } else {
-    document.body.classList.remove("active-modal");
-  }
-
-
-  const paymentForm = async () => {
-    setLoading(true);
-    const { name, paydate, upi, mobile } = paymentData;
-    try {
-      setLoading(true)
-      const { data } = await axios.post("/payment/pay", {
-        name, paydate, upi, mobile
-      });
-
-      if (data.error) {
-        toast.error(data.error);
-        setLoading(false);
-      } else {
-        registrationForm()
-        setLoading(true);
-        setPaymentData({});
-        navigate("/success/registrationform/apiCall/687refrjjjefewjwttokenfalse/wfewfwe/false/satyagrah/registrationdonetrue");
-        toast.success("Registration Done Successfully");
-      }
-    } catch (error) {
-      setLoading(false)
-      console.log(error);
-    }
+    document.body.classList.toggle("active-modal", !modal);
   };
 
   const textToCopy = "7667102184@pthdfc";
@@ -89,7 +53,6 @@ export const RegistrationCard = () => {
     });
   };
 
-  // Photo Card
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -112,275 +75,522 @@ export const RegistrationCard = () => {
   };
 
   const registrationForm = async () => {
-    // setLoading(true);
     const { course, state, fullname, qualification, dob, gender, fathername, fatheroccupation, mothername, caste, income, address, pincode, email, mobile, alternatemobile } = formData;
     const { upi, paydate } = paymentData;
-    const doc = new jsPDF({ orientation: 'p', format: 'a4', compress: true })
-    doc.addImage(imgForm, 'PNG', 0, 0, 212, 300)
-    doc.addImage(photo, 156, 77, 32, 40)
+    
+    const doc = new jsPDF({ orientation: 'p', format: 'a4', compress: true });
+    doc.addImage(imgForm, 'PNG', 0, 0, 212, 300);
+    doc.addImage(photo, 156, 77, 32, 40);
     doc.setFont('NotoSansAll-Regular');
-    doc.text(course, 51.8, 96.4)
-    doc.text(fullname, 37.5, 107.5)
-    doc.text(qualification, 57, 116.7)
-    doc.text(dob, 42, 128.2)
-    doc.text(gender, 142, 126.2)
-    doc.text(fathername, 40, 137.8)
-    doc.text('IND', 143, 136.9)
-    doc.text(mothername, 40, 148.8)
-    doc.text(fatheroccupation, 148, 147)
-    doc.text(income + ' /-', 82, 159)
-    doc.text(caste, 142, 156.6)
-    doc.text(address, 34, 170.5)
-    doc.text(mobile, 34, 181)
-    doc.text(pincode, 142, 181)
-    doc.text(email, 35, 192.4)
-    doc.text(alternatemobile, 142, 192.4)
-    doc.text(state, 58, 212)
-    doc.text('On: ' + paydate, 142, 224)
-    doc.text('UPI Transaction ID : ' + upi, 45, 224)
+    doc.text(course, 51.8, 96.4);
+    doc.text(fullname, 37.5, 107.5);
+    doc.text(qualification, 57, 116.7);
+    doc.text(dob, 42, 128.2);
+    doc.text(gender, 142, 126.2);
+    doc.text(fathername, 40, 137.8);
+    doc.text('IND', 143, 136.9);
+    doc.text(mothername, 40, 148.8);
+    doc.text(fatheroccupation, 148, 147);
+    doc.text(income + ' /-', 82, 159);
+    doc.text(caste, 142, 156.6);
+    doc.text(address, 34, 170.5);
+    doc.text(mobile, 34, 181);
+    doc.text(pincode, 142, 181);
+    doc.text(email, 35, 192.4);
+    doc.text(alternatemobile, 142, 192.4);
+    doc.text(state, 58, 212);
+    doc.text('On: ' + paydate, 142, 224);
+    doc.text('UPI Transaction ID : ' + upi, 45, 224);
+
     try {
-      // setLoading(true)
       const { data } = await axios.post("/form/registration", {
         course, state, fullname, qualification, dob, gender, fathername, fatheroccupation, mothername, caste, income, address, pincode, email, mobile, alternatemobile
       });
       if (data.error) {
         toast.error(data.error);
-        setLoading(false);
       } else {
-        // setLoading(true);
         setFormData({});
-        doc.save(`SATYAGRAH@${fullname}.pdf`)
+        doc.save(`SATYAGRAH@${fullname}.pdf`);
       }
     } catch (error) {
-      // setLoading(true)
       console.log(error);
     }
   };
 
-  function paramsCheck() {
-    if (!formData.alternatemobile || !formData.mobile || !formData.email || !formData.pincode || !formData.address || !formData.caste || !formData.fullname || !formData.course || !formData.state || !formData.income || !formData.qualification || !formData.mothername || !formData.dob || !formData.fatheroccupation || !formData.gender || !formData.fathername) {
-      toast.error("Enter All Details")
-    }
-    else {
-      toggleModal()
-    }
-  }
+  const paymentForm = async () => {
+    setLoading(true);
+    const { name, paydate, upi, mobile } = paymentData;
+    try {
+      const { data } = await axios.post("/payment/pay", {
+        name, paydate, upi, mobile
+      });
 
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        registrationForm();
+        setPaymentData({});
+        navigate("/success/registrationform/apiCall/687refrjjjefewjwttokenfalse/wfewfwe/false/satyagrah/registrationdonetrue");
+        toast.success("Registration Done Successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const paramsCheck = () => {
+    if (!formData.alternatemobile || !formData.mobile || !formData.email || !formData.pincode || !formData.address || !formData.caste || !formData.fullname || !formData.course || !formData.state || !formData.income || !formData.qualification || !formData.mothername || !formData.dob || !formData.fatheroccupation || !formData.gender || !formData.fathername) {
+      toast.error("Enter All Details");
+    } else {
+      toggleModal();
+    }
+  };
 
   return (
-    <>
-      <div>
-        <section className="md:h-full flex  items-center text-white pb-4 bg-slate-800">
-          <div className="container px-5 py-24 mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl pt-4 md:text-6xl xl:-mt-16 text-white font-semibold">
-                Registration
-              </h1>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+      {/* Registration Form */}
+      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 py-6 px-8 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-white">Student Registration</h1>
+          <p className="mt-2 text-blue-100">Fill in your details to complete registration</p>
+        </div>
+
+        {/* Form Content */}
+        <div className="p-6 md:p-8">
+          {/* Photo Upload */}
+          <div className="mb-8 flex flex-col items-center">
+            <div className="relative w-32 h-40 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden">
+              {photo ? (
+                <img src={photo} alt="Uploaded" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-gray-400">Your Photo</span>
+              )}
+            </div>
+            <label className="mt-4 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg cursor-pointer hover:bg-blue-200 transition-colors">
+              Upload Photo
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="hidden"
+              />
+            </label>
+          </div>
+
+          {/* Form Fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Course */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Course</label>
+              <input
+                type="text"
+                list="corse"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Select Course"
+                value={formData.course}
+                onChange={(e) => setFormData({ ...formData, course: e.target.value })}
+              />
+              <datalist id="corse">
+                <option value="BTech" />
+                <option value="MTech" />
+                <option value="BSc Agriculture" />
+                <option value="BSc Nursing" />
+                <option value="BPharma" />
+                <option value="BBA" />
+                <option value="B.Ed" />
+                <option value="D.Pharma" />
+                <option value="Polytechnic" />
+                <option value="MBA" />
+                <option value="Law" />
+                <option value="B.Sc Home Science" />
+                <option value="Fashion Designing" />
+                <option value="BAJMC" />
+                <option value="Journalism" />
+                <option value="B.Sc (Hons.)" />
+                <option value="MBBS" />
+                <option value="Paramedical" />
+              </datalist>
             </div>
 
+            {/* Full Name */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Full Name</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter Your Name"
+                value={formData.fullname}
+                onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+              />
+            </div>
 
-            <div className="containersx w-auto h-auto m-auto relative content-center bg-transparent">
-              {/* Image */}
-              <div className="input-box">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoChange}
-                  className="mb-4"
-                />
-                {photo && (
-                  <img src={photo} alt="Uploaded" className="w-32 h-42 object-cover" />
-                )}
+            {/* Qualification */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Educational Qualification</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Highest Qualification"
+                value={formData.qualification}
+                onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
+              />
+            </div>
+
+            {/* Date of Birth */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
+              <input
+                type="date"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                value={formData.dob}
+                onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+              />
+            </div>
+
+            {/* Gender */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">Gender</label>
+              <div className="flex space-x-4">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Male"
+                    checked={formData.gender === "Male"}
+                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">Male</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    checked={formData.gender === "Female"}
+                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">Female</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Other"
+                    checked={formData.gender === "Other"}
+                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">Other</span>
+                </label>
               </div>
-              {/* image  */}
+            </div>
 
-
-
-              <div className="content">
-                <div className="forms">
-                  <div className="user-details">
-
-
-                    <div className="input-box">
-                      <span className="details">Course</span>
-                      <input type="text" list='corse' className='text-[0.5rem]' placeholder="Enter Course You Want To Apply" name='course' value={formData.course} onChange={(e) => setFormData({ ...formData, course: e.target.value })} />
-                      <datalist id='corse'>
-                        <option value="BTech" />
-                        <option value="MTech" />
-                        <option value="BSc Agriculture" />
-                        <option value="BSc Nursing" />
-                        <option value="BPharma" />
-                        <option value="BBA" />
-                        <option value="B.Ed" />
-                        <option value="D.Pharma" />
-                        <option value="Polytechnic" />
-                        <option value="MBA" />
-                        <option value="Law" />
-                        <option value="B.Sc Home Science" />
-                        <option value="Fashion Designing" />
-                        <option value="BAJMC" />
-                        <option value="Journalism" />
-                        <option value="B.Sc (Hons.)" />
-                        <option value="MBBS" />
-                        <option value="Paramedical" />
-                      </datalist>
-                    </div>
-
-                    <div className="input-box">
-                      <span className="details">Name</span>
-                      <input type="text" placeholder="Enter Your Name" name='fullname' value={formData.fullname} onChange={(e) => setFormData({ ...formData, fullname: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Educational Qualification</span>
-                      <input type="text" placeholder="Enter Your Highest Qualification" name='qualification' value={formData.qualification} onChange={(e) => setFormData({ ...formData, qualification: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Date Of Birth</span>
-                      <input type="date" placeholder="Enter Date Of Birth" name='dob' value={formData.dob} onChange={(e) => setFormData({ ...formData, dob: e.target.value })} />
-                    </div>
-                    <div className="gender-details m-2 my-4" onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
-                      <span className="gender-title text-xs">Gender</span>
-                      <br className='mb-2' />
-                      <input type="radio" className='mx-1' name="gender" value='Male' />Male
-                      <input type="radio" className='mx-1' name="gender" value='Female' />Female
-                      <input type="radio" className='mx-1' name="gender" value='Other' />Other
-                    </div>
-
-                    <div className="gender-details mr-20 m-2 my-4" onChange={(e) => setFormData({ ...formData, caste: e.target.value })}>
-                      <span className="gender-title text-xs">Caste</span>
-                      <br />
-                      <input type="radio" className='' name="caste" value='General' /> General
-                      <input type="radio" className='mx-1' name="caste" value='SC/ST' /> SC/ST
-                      <input type="radio" className='mx-1' name="caste" value='OBC' />OBC
-
-                    </div>
-
-
-                    <div className="input-box">
-                      <span className="details">Father's Name</span>
-                      <input type="text" placeholder="Enter Father's Name" name='fathername' value={formData.fathername} onChange={(e) => setFormData({ ...formData, fathername: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Father's Occupation</span>
-                      <input type="text" placeholder="Enter Father's Occupation" name='fatheroccupation' value={formData.fatheroccupation} onChange={(e) => setFormData({ ...formData, fatheroccupation: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Mother's Name</span>
-                      <input type="text" placeholder="Enter Mother's Name" name='mothername' value={formData.mothername} onChange={(e) => setFormData({ ...formData, mothername: e.target.value })} />
-                    </div>
-
-                    <div className="input-box">
-                      <span className="details">Family Income</span>
-                      <input type="text" placeholder="Enter Your Family Income" name='income' value={formData.income} onChange={(e) => setFormData({ ...formData, income: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Address</span>
-                      <input type="text" placeholder="Enter Your Address" name='address' value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Pincode</span>
-                      <input type="number" placeholder="Enter Your Pincode" name='pincode' value={formData.pincode} onChange={(e) => setFormData({ ...formData, pincode: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Email</span>
-                      <input type="email" placeholder="Enter Your Email" name='email' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Mobile Number</span>
-                      <input type="text" placeholder="Enter Your Number" name='mobile' value={formData.mobile} onChange={(e) => setFormData({ ...formData, mobile: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Alternate Mobile Number</span>
-                      <input type="text" placeholder="Enter Your Number" name='alternatemobile' value={formData.alternatemobile} onChange={(e) => setFormData({ ...formData, alternatemobile: e.target.value })} />
-                    </div>
-                    <div className="input-box">
-                      <span className="details">Location For Higher Education</span>
-                      <input type="text" list='stat' placeholder="Choose a Location For Higher Education" name='state' value={formData.state} onChange={(e) => setFormData({ ...formData, state: e.target.value })} />
-                      <datalist id='stat'>
-                        <option value="Delhi/NCR" />
-                        <option value="Punjab" />
-                        <option value="Chandigarh" />
-                        <option value="Haryana" />
-                        <option value="West Bengal" />
-                        <option value="Rajasthan" />
-                        <option value="Pune" />
-                        <option value="Nasik" />
-                        <option value="Chennai" />
-                        <option value="Odisha" />
-                        <option value="Bangalore" />
-                        <option value="Madhya Pradesh" />
-                        <option value="Uttar Pradesh" />
-                        <option value="Andhra Pradesh" />
-                      </datalist>
-                    </div>
-                  </div>
-
-
-                  <div className="button">
-                    <button onClick={paramsCheck}
-                    >
-                      Proceed To Pay
-                    </button>
-                  </div>
-                </div>
+            {/* Caste */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">Caste</label>
+              <div className="flex space-x-4">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="caste"
+                    value="General"
+                    checked={formData.caste === "General"}
+                    onChange={(e) => setFormData({ ...formData, caste: e.target.value })}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">General</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="caste"
+                    value="SC/ST"
+                    checked={formData.caste === "SC/ST"}
+                    onChange={(e) => setFormData({ ...formData, caste: e.target.value })}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">SC/ST</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="caste"
+                    value="OBC"
+                    checked={formData.caste === "OBC"}
+                    onChange={(e) => setFormData({ ...formData, caste: e.target.value })}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">OBC</span>
+                </label>
               </div>
+            </div>
+
+            {/* Father's Name */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Father's Name</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Father's Name"
+                value={formData.fathername}
+                onChange={(e) => setFormData({ ...formData, fathername: e.target.value })}
+              />
+            </div>
+
+            {/* Father's Occupation */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Father's Occupation</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Occupation"
+                value={formData.fatheroccupation}
+                onChange={(e) => setFormData({ ...formData, fatheroccupation: e.target.value })}
+              />
+            </div>
+
+            {/* Mother's Name */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Mother's Name</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Mother's Name"
+                value={formData.mothername}
+                onChange={(e) => setFormData({ ...formData, mothername: e.target.value })}
+              />
+            </div>
+
+            {/* Family Income */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Family Income</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Annual Income"
+                value={formData.income}
+                onChange={(e) => setFormData({ ...formData, income: e.target.value })}
+              />
+            </div>
+
+            {/* Address */}
+            <div className="space-y-1 md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700">Address</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Full Address"
+                value={formData.address}
+                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              />
+            </div>
+
+            {/* Pincode */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Pincode</label>
+              <input
+                type="number"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Pincode"
+                value={formData.pincode}
+                onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+              />
+            </div>
+
+            {/* Email */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+            </div>
+
+            {/* Mobile Number */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Primary Number"
+                value={formData.mobile}
+                onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+              />
+            </div>
+
+            {/* Alternate Mobile */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Alternate Mobile</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Secondary Number"
+                value={formData.alternatemobile}
+                onChange={(e) => setFormData({ ...formData, alternatemobile: e.target.value })}
+              />
+            </div>
+
+            {/* Location */}
+            <div className="space-y-1 md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700">Location For Higher Education</label>
+              <input
+                type="text"
+                list="stat"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Preferred Location"
+                value={formData.state}
+                onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+              />
+              <datalist id="stat">
+                <option value="Delhi/NCR" />
+                <option value="Punjab" />
+                <option value="Chandigarh" />
+                <option value="Haryana" />
+                <option value="West Bengal" />
+                <option value="Rajasthan" />
+                <option value="Pune" />
+                <option value="Nasik" />
+                <option value="Chennai" />
+                <option value="Odisha" />
+                <option value="Bangalore" />
+                <option value="Madhya Pradesh" />
+                <option value="Uttar Pradesh" />
+                <option value="Andhra Pradesh" />
+              </datalist>
             </div>
           </div>
-        </section>
-      </div>
 
-      {modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay "></div>
-          <div className="modal-content  ">
-            <button onClick={toggleModal} className='flex flex-end float-right p-1 bg-red-700 rounded text-black'><IoMdClose /></button>
-            {/* Qr Code  */}
-            <div className="p-3 flex flex-col items-center justify-center contentz user-two">
-              <img className='object-cover h-20  md:h-60 ' src={qrpay} alt='QR' />
-              <div className="flex items-center space-x-2 contentz user-two">
-                <span onClick={copyText} className="cursor-pointer">{textToCopy}</span>
-                <FiCopy onClick={copyText} className="cursor-pointer w-5 h-5" />
-              </div>
-              <p className="md:text-4xl text-xl text-black font-bold mt-4">Rs 1000/-</p>
-              <p className="md:text-sm text-[.75rem] text-black mt-2">*Pay Registration Fees and Enter the Transaction Details</p>
-            </div>
-            {/* qr  */}
-            <div className="contentz">
-              <div className="forms">
-                <div className="user-details">
-                  <div className="input-box">
-                    <span className="detail text-black">Name</span>
-                    <input type="text" className='text-[0.5rem]' placeholder="Enter Your Name" name='name' value={paymentData.name} onChange={(e) => setPaymentData({ ...paymentData, name: e.target.value })} required />
-                  </div>
-
-                  <div className="input-box">
-                    <span className="details text-black">Payment Date</span>
-                    <input type="date" placeholder="Enter Payment Date" name='paydate' value={paymentData.paydate} onChange={(e) => setPaymentData({ ...paymentData, paydate: e.target.value })} required />
-                  </div>
-                  <div className="input-box">
-                    <span className="details text-black">UPI Transaction ID</span>
-                    <input type="number" placeholder="Enter UPI Transaction ID" name='upi' value={paymentData.upi} onChange={(e) => setPaymentData({ ...paymentData, upi: e.target.value })} required />
-                  </div>
-                  <div className="input-box">
-                    <span className="details text-black">Mobile Number</span>
-                    <input type="number" placeholder="Enter Mobile Number" name='mobile' value={paymentData.mobile} onChange={(e) => setPaymentData({ ...paymentData, mobile: e.target.value })} required />
-                  </div>
-                </div>
-                <div className="button">
-                  <button onClick={paymentForm}
-                    className={`${loading} save`}
-                    disabled={loading}
-                  >
-                    {loading ? <div className="loader"></div> : "Submit"}
-                  </button>
-                </div>
-              </div>
-
-            </div>
-
+          {/* Submit Button */}
+          <div className="mt-8 text-center">
+            <button
+              onClick={paramsCheck}
+              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-medium rounded-lg shadow-lg hover:from-blue-700 hover:to-indigo-800 transition-all duration-300"
+            >
+              Proceed To Pay
+            </button>
           </div>
         </div>
-      )}
-    </>
-  )
-}
+      </div>
+
+      {/* Payment Modal */}
+      {modal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 overflow-y-auto">
+    <div className="bg-white rounded-xl max-w-md w-full mx-auto shadow-2xl max-h-[90vh] flex flex-col">
+      {/* Modal Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 py-3 px-4 sm:py-4 sm:px-6 flex justify-between items-center sticky top-0">
+        <h2 className="text-lg sm:text-xl font-bold text-white">Payment Details</h2>
+        <button
+          onClick={toggleModal}
+          className="text-white hover:text-gray-200"
+        >
+          <IoMdClose size={20} className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Modal Content - Scrollable area */}
+      <div className="p-4 sm:p-6 overflow-y-auto flex-1">
+        {/* QR Code Section */}
+        <div className="flex flex-col items-center mb-4 sm:mb-6">
+          <img 
+            className="w-40 h-40 sm:w-48 sm:h-48 object-contain mb-3 sm:mb-4" 
+            src={qrpay} 
+            alt="QR Code" 
+          />
+          <div className="flex items-center bg-blue-50 px-3 py-1 sm:px-4 sm:py-2 rounded-lg mb-2 w-full justify-center">
+            <span className="font-mono text-blue-800 text-sm sm:text-base truncate max-w-[180px] sm:max-w-none">
+              {textToCopy}
+            </span>
+            <button
+              onClick={copyText}
+              className="ml-2 text-blue-600 hover:text-blue-800"
+            >
+              <FiCopy size={16} className="w-4 h-4" />
+            </button>
+          </div>
+          <p className="text-md sm:text-lg font-bold text-gray-800 mt-1 sm:mt-2">Rs 1000/-</p>
+          <p className="text-xs sm:text-sm text-gray-500 mt-1 text-center">
+            *Pay Registration Fees and Enter the Transaction Details
+          </p>
+        </div>
+
+        {/* Payment Form */}
+        <div className="space-y-3 sm:space-y-4">
+          <div>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Name</label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Your Name"
+              value={paymentData.name}
+              onChange={(e) => setPaymentData({ ...paymentData, name: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Payment Date</label>
+            <input
+              type="date"
+              className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={paymentData.paydate}
+              onChange={(e) => setPaymentData({ ...paymentData, paydate: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">UPI Transaction ID</label>
+            <input
+              type="number"
+              className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Transaction ID"
+              value={paymentData.upi}
+              onChange={(e) => setPaymentData({ ...paymentData, upi: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+            <input
+              type="number"
+              className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Mobile Number"
+              value={paymentData.mobile}
+              onChange={(e) => setPaymentData({ ...paymentData, mobile: e.target.value })}
+            />
+          </div>
+
+          {/* Submit Button */}
+          <div className="pt-2 sm:pt-4">
+            <button
+              onClick={paymentForm}
+              disabled={loading}
+              className="w-full py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-medium rounded-lg shadow hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 flex items-center justify-center text-sm sm:text-base"
+            >
+              {loading ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing...
+                </>
+              ) : (
+                "Submit Payment"
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+    </div>
+  );
+};
