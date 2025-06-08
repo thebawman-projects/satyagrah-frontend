@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { motion, useAnimation } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { motion } from 'framer-motion';
 
 const CourseHead = () => {
   const bgImage = 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
@@ -31,37 +30,22 @@ const CourseHead = () => {
   );
 };
 
-const CourseCard = ({ title, courses }) => {
-  const controls = useAnimation();
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true
-  });
+const CourseCard = ({ title, courses, index }) => {
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (inView) {
-      controls.start('visible');
-    }
-  }, [controls, inView]);
-
-  const variants = {
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
-    },
-    hidden: { 
-      opacity: 0, 
-      y: 20
-    }
-  };
+    // Simple timeout-based animation trigger instead of intersection observer
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, index * 100);
+    return () => clearTimeout(timer);
+  }, [index]);
 
   return (
     <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={variants}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isVisible ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       whileHover={{ y: -5 }}
       className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg overflow-hidden border border-gray-100"
     >
@@ -69,12 +53,12 @@ const CourseCard = ({ title, courses }) => {
         <h2 className="text-white text-xl font-bold">{title}</h2>
       </div>
       <ul className="p-4 space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
-        {courses.map((course, index) => (
+        {courses.map((course, i) => (
           <motion.li 
             key={course}
             initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 * index }}
+            animate={isVisible ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 0.1 * i }}
             className="text-gray-700 hover:text-blue-600 transition-colors duration-200 flex items-start"
           >
             <span className="text-blue-500 mr-2 mt-1">•</span>
@@ -198,8 +182,13 @@ const CourseGrid = () => {
         transition={{ delay: 0.5 }}
         className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-3'} gap-6`}
       >
-        {data.map((item) => (
-          <CourseCard key={item.title} title={item.title} courses={item.courses} />
+        {data.map((item, index) => (
+          <CourseCard 
+            key={item.title} 
+            title={item.title} 
+            courses={item.courses} 
+            index={index}
+          />
         ))}
       </motion.div>
     </div>
