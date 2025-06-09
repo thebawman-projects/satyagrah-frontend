@@ -5,6 +5,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@ionic/react": "^7.0.12",
+      "@mui/x-data-grid": "^8.5.1",
     "@material-ui/data-grid": "^4.0.0-alpha.37",
     "@radix-ui/react-scroll-area": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
