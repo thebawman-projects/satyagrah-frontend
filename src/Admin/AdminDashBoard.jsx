@@ -433,7 +433,7 @@ export function AdminDashBoard() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="inline-block w-full max-w-3xl text-left align-middle transition-all transform bg-white rounded-lg shadow-xl overflow-hidden"
+              className="inline-block w-full max-w-3xl text-left align-middle transition-all transform bg-white rounded-lg shadow-xl overflow-hidden z-50"
             >
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="flex justify-between items-start">
