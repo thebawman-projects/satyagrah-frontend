@@ -162,7 +162,7 @@ export function AdminDashBoard() {
     toggleModal();
   };
 
-  const columns = [
+ const columns = [
     {
       field: "id",
       headerName: "ID",
@@ -180,28 +180,28 @@ export function AdminDashBoard() {
     {
       field: "course",
       headerName: "Course",
-      width: 180,
+      width: 190,
       headerClassName: "font-bold bg-gray-100",
       cellClassName: "font-medium"
     },
     {
       field: "mobile",
       headerName: "Number",
-      width: 180,
+      width: 220,
       headerClassName: "font-bold bg-gray-100",
       cellClassName: "font-medium"
     },
     {
       field: "email",
       headerName: "Email",
-      width: 220,
+      width: 250,
       headerClassName: "font-bold bg-gray-100",
       cellClassName: "font-medium truncate"
     },
     {
       field: "gender",
       headerName: "Gender",
-      width: 120,
+      width: 150,
       headerClassName: "font-bold bg-gray-100",
       cellClassName: "font-medium"
     },
@@ -214,7 +214,7 @@ export function AdminDashBoard() {
     },
     {
       field: "View",
-      width: 80,
+      width: 100,
       sortable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
@@ -231,7 +231,7 @@ export function AdminDashBoard() {
     },
     {
       field: "Delete",
-      width: 80,
+      width: 100,
       sortable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
