@@ -42,11 +42,13 @@ export function AdminDashBoard() {
     setModal(!modal);
   };
 
-  if (modal) {
-    document.body.classList.add("active-modal");
-  } else {
-    document.body.classList.remove("active-modal");
-  }
+  useEffect(() => {
+    if (modal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [modal]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,6 +91,7 @@ export function AdminDashBoard() {
     try {
       const res = await axios.get("/form/form/" + id);
       setSingleData(res.data.form);
+      toggleModal();
     } catch (err) {
       console.log(err);
       toast.error("Failed to fetch details");
@@ -218,10 +221,7 @@ export function AdminDashBoard() {
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          onClick={(e) => {
-            handleView(params.id);
-            toggleModal();
-          }}
+          onClick={() => handleView(params.id)}
           className="text-blue-600 hover:text-blue-800 p-1 rounded-full hover:bg-blue-100"
           title="View Details"
         >
@@ -267,7 +267,7 @@ export function AdminDashBoard() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <AdminNavbar />
       
-      <main className="flex-grow pt-20 pb-16"> {/* Added padding top and bottom */}
+      <main className="flex-grow pt-20 pb-16">
         <div className="container mx-auto px-4 py-6">
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
             <div className="p-6 border-b border-gray-200">
@@ -304,110 +304,115 @@ export function AdminDashBoard() {
               </div>
             </div>
             
-            <div className="w-full h-[calc(100vh-280px)] p-4">
+            <div className="w-full h-[calc(100vh-280px)] p-4 overflow-hidden">
               {loading ? (
                 <div className="flex justify-center items-center h-64">
                   <PulseLoader color="#3B82F6" size={15} />
                 </div>
               ) : (
-                <DataGrid
-                  rows={row}
-                  columns={columns}
-                  pageSize={10}
-                  rowsPerPageOptions={[5, 10, 20]}
-                  disableSelectionOnClick
-                  autoHeight
-                  loading={loading}
-                  components={{
-                    Pagination: (props) => (
-                      <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
-                        <div className="flex-1 flex justify-between sm:hidden">
-                          <button
-                            onClick={() => props.onPageChange(props.page - 1)}
-                            disabled={props.page === 0}
-                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                          >
-                            Previous
-                          </button>
-                          <button
-                            onClick={() => props.onPageChange(props.page + 1)}
-                            disabled={!props.hasNextPage}
-                            className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                          >
-                            Next
-                          </button>
-                        </div>
-                        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                          <div>
-                            <p className="text-sm text-gray-700">
-                              Showing <span className="font-medium">{props.page * props.pageSize + 1}</span> to{' '}
-                              <span className="font-medium">
-                                {Math.min((props.page + 1) * props.pageSize, props.rowCount)}
-                              </span>{' '}
-                              of <span className="font-medium">{props.rowCount}</span> results
-                            </p>
+                <div className="w-full h-full">
+                  <DataGrid
+                    rows={row}
+                    columns={columns}
+                    pageSize={10}
+                    rowsPerPageOptions={[5, 10, 20]}
+                    disableSelectionOnClick
+                    autoHeight={false}
+                    loading={loading}
+                    components={{
+                      Pagination: (props) => (
+                        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
+                          <div className="flex-1 flex justify-between sm:hidden">
+                            <button
+                              onClick={() => props.onPageChange(props.page - 1)}
+                              disabled={props.page === 0}
+                              className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                            >
+                              Previous
+                            </button>
+                            <button
+                              onClick={() => props.onPageChange(props.page + 1)}
+                              disabled={!props.hasNextPage}
+                              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                            >
+                              Next
+                            </button>
                           </div>
-                          <div>
-                            <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                              <button
-                                onClick={() => props.onPageChange(props.page - 1)}
-                                disabled={props.page === 0}
-                                className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                              >
-                                <span className="sr-only">Previous</span>
-                                <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                  <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                              </button>
-                              {[...Array(props.pageCount)].map((_, index) => (
+                          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                              <p className="text-sm text-gray-700">
+                                Showing <span className="font-medium">{(props.page * props.pageSize) + 1}</span> to{' '}
+                                <span className="font-medium">
+                                  {Math.min((props.page + 1) * props.pageSize, props.rowCount)}
+                                </span>{' '}
+                                of <span className="font-medium">{props.rowCount}</span> results
+                              </p>
+                            </div>
+                            <div>
+                              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                                 <button
-                                  key={index}
-                                  onClick={() => props.onPageChange(index)}
-                                  className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                                    props.page === index
-                                      ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
-                                      : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                                  }`}
+                                  onClick={() => props.onPageChange(props.page - 1)}
+                                  disabled={props.page === 0}
+                                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                  {index + 1}
+                                  <span className="sr-only">Previous</span>
+                                  <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                                  </svg>
                                 </button>
-                              ))}
-                              <button
-                                onClick={() => props.onPageChange(props.page + 1)}
-                                disabled={props.page >= props.pageCount - 1}
-                                className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                              >
-                                <span className="sr-only">Next</span>
-                                <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                  <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                </svg>
-                              </button>
-                            </nav>
+                                {[...Array(props.pageCount)].map((_, index) => (
+                                  <button
+                                    key={index}
+                                    onClick={() => props.onPageChange(index)}
+                                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                                      props.page === index
+                                        ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
+                                        : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                                    }`}
+                                  >
+                                    {index + 1}
+                                  </button>
+                                ))}
+                                <button
+                                  onClick={() => props.onPageChange(props.page + 1)}
+                                  disabled={props.page >= props.pageCount - 1}
+                                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                  <span className="sr-only">Next</span>
+                                  <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                                  </svg>
+                                </button>
+                              </nav>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ),
-                    LoadingOverlay: () => (
-                      <div className="flex justify-center items-center h-full">
-                        <PulseLoader color="#3B82F6" size={15} />
-                      </div>
-                    ),
-                  }}
-                  sx={{
-                    '& .MuiDataGrid-columnHeaders': {
-                      backgroundColor: '#f3f4f6',
-                    },
-                    '& .MuiDataGrid-cell': {
-                      borderRight: '1px solid #e5e7eb',
-                    },
-                    '& .MuiDataGrid-cell:focus': {
-                      outline: 'none',
-                    },
-                    '& .MuiDataGrid-footerContainer': {
-                      borderTop: 'none',
-                    },
-                  }}
-                />
+                      ),
+                      LoadingOverlay: () => (
+                        <div className="flex justify-center items-center h-full">
+                          <PulseLoader color="#3B82F6" size={15} />
+                        </div>
+                      ),
+                    }}
+                    sx={{
+                      '& .MuiDataGrid-columnHeaders': {
+                        backgroundColor: '#f3f4f6',
+                      },
+                      '& .MuiDataGrid-cell': {
+                        borderRight: '1px solid #e5e7eb',
+                      },
+                      '& .MuiDataGrid-cell:focus': {
+                        outline: 'none',
+                      },
+                      '& .MuiDataGrid-footerContainer': {
+                        borderTop: 'none',
+                      },
+                      '& .MuiDataGrid-virtualScroller': {
+                        overflowX: 'hidden',
+                      },
+                    }}
+                  />
+                </div>
               )}
             </div>
           </div>
@@ -417,17 +422,18 @@ export function AdminDashBoard() {
       {/* Student Details Modal */}
       {modal && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity" onClick={toggleModal}>
-              <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
-            </div>
+          <div className="flex items-center justify-center min-h-screen p-4 text-center">
+            <div 
+              className="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" 
+              onClick={toggleModal}
+            ></div>
             
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
             
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full"
+              className="inline-block w-full max-w-3xl text-left align-middle transition-all transform bg-white rounded-lg shadow-xl overflow-hidden"
             >
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="flex justify-between items-start">
@@ -445,11 +451,11 @@ export function AdminDashBoard() {
                   </button>
                 </div>
                 
-                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[70vh] overflow-y-auto">
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h4 className="font-semibold text-gray-700 mb-3 border-b pb-2">Personal Information</h4>
                     <DetailItem label="Full Name" value={singleData.fullname} />
-                    <DetailItem label="Date of Birth" value={singleData.dob.slice(0, 10)} />
+                    <DetailItem label="Date of Birth" value={singleData.dob?.slice(0, 10) || '-'} />
                     <DetailItem label="Gender" value={singleData.gender} />
                     <DetailItem label="Qualification" value={singleData.qualification} />
                     <DetailItem label="Caste" value={singleData.caste} />
