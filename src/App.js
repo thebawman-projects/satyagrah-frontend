@@ -13,7 +13,6 @@ import Courses from './Pages/Courses';
 import Registration from './Pages/Registration';
 import { AdminDashBoard } from './Admin/AdminDashBoard';
 import NotFound from './Components/NotFound';
-import HomeImageCard from './Components/Home/HomeImageCard';
 import Success from './Components/Registration/Success';
 import { PaymentsAdmin } from './Admin/PaymentsAdmin';
 import { LeadsAdmin } from './Admin/LeadsAdmin';
