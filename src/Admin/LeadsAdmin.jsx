@@ -3,15 +3,14 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { toast } from "react-hot-toast";
 import { RiDeleteBack2Line } from "react-icons/ri";
-import sankalplogo from "../images/sankalp.png";
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
 import FooterAdmin from "./FooterAdmin";
 import {CSVLink} from 'react-csv'
-import { Link, useNavigate } from "react-router-dom";
+import AdminNavbar from "./AdminNavbar";
 
 export function LeadsAdmin() {
-  const navigate = useNavigate()
+
   const [data, setData] = useState([]);
 
 
@@ -36,14 +35,6 @@ export function LeadsAdmin() {
       toast.success("Deleted Successfully"); 
   };
 
-  const handleLogout = () =>{
-    navigate('/')
-    toast.success("Logged Out SuccesFully")
-    window.history.pushState(null, document.title, window.location.href);
-  window.addEventListener('popstate', function(event) {
-    window.history.pushState(null, document.title, window.location.href);
-  })
-  }
  
 let info = []
 data && data.forEach((element,index,array)=>{
@@ -120,33 +111,9 @@ data && data.forEach((element,index,array)=>{
   return (
     <>
       <div>
-        <nav>
-            <img
-              className="object-cover h-8 md:h-16"
-              src={sankalplogo}
-              alt="Satyagrah"
-            />
-          <h2 className="text-white text-center float-right hidden md:contents text-2xl pr-20">
-            Leads
-          </h2>
-          <Link to="/dashboard">
-            <button
-              className="border hover:bg-red-500 hover:text-black border-1 border-yellow-400 rounded px-3 py-1 bg-blue-900 text-white"
-            >
-              Dashboard
-            </button>
-            </Link>
-            <Link to="/payments">
-            <button
-              className="border hover:bg-red-500 hover:text-black border-1 border-yellow-400 rounded px-3 py-1 bg-blue-900 text-white"
-            >
-              Payments
-            </button>
-            </Link>
-          <Link to='/'><button onClick={handleLogout} className="text-white border -ml-2 md:ml-8 hover:bg-red-500 hover:text-black border-1 border-yellow-400 rounded px-3 py-1">LogOut</button></Link>
-        </nav>
+       <AdminNavbar/>
       </div>
-      <div className="w-full  pt-1 mt-10 bg-white">
+      <div className="w-full  pt-20 bg-white">
         <DataGrid
           rows={row}
           columns={columns}
