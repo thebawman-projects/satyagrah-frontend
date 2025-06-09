@@ -9,6 +9,7 @@ import 'jspdf-autotable'
 import FooterAdmin from "./FooterAdmin";
 import {CSVLink} from 'react-csv'
 import imgForm from '../images/imgForm.png'
+import AdminNavbar from "./AdminNavbar";
 
 export function AdminDashBoard() {
   const [data, setData] = useState([]);
