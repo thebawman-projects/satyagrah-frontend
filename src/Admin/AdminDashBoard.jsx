@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { toast } from "react-hot-toast";
-import { BsArrowRightSquare, BsDownload, BsFileEarmarkExcel, BsFileEarmarkPdf } from "react-icons/bs";
+import { BsDownload, BsFileEarmarkExcel, BsFileEarmarkPdf } from "react-icons/bs";
 import { RiDeleteBack2Line } from "react-icons/ri";
 import { FiEye, FiX } from "react-icons/fi";
 import { jsPDF } from "jspdf";
