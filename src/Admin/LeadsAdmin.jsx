@@ -119,45 +119,45 @@ export function LeadsAdmin() {
     toast.success("PDF exported successfully");
   };
 
-  const columns = [
+ const columns = [
     {
       field: "id",
       headerName: "ID",
-      width: 100,
+      width: 180,
       headerClassName: "font-bold bg-gray-100",
       cellClassName: "font-medium"
     },
     {
       field: "name",
       headerName: "Name",
-      width: 200,
+      width: 300,
       headerClassName: "font-bold bg-gray-100",
       cellClassName: "font-medium"
     },
     {
       field: "email",
       headerName: "Email",
-      width: 220,
+      width: 270,
       headerClassName: "font-bold bg-gray-100",
       cellClassName: "font-medium truncate"
     },
     {
       field: "phone",
       headerName: "Mobile",
-      width: 180,
+      width: 250,
       headerClassName: "font-bold bg-gray-100",
       cellClassName: "font-medium"
     },
     {
       field: "program",
       headerName: "Program",
-      width: 220,
+      width: 250,
       headerClassName: "font-bold bg-gray-100",
       cellClassName: "font-medium"
     },
     {
       field: "View",
-      width: 80,
+      width: 100,
       sortable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
@@ -174,7 +174,7 @@ export function LeadsAdmin() {
     },
     {
       field: "Delete",
-      width: 80,
+      width: 100,
       sortable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
