@@ -33,6 +33,7 @@
     "react-router-dom": "^6.12.1",
     "react-scripts": "5.0.1",
      "react-spinners": "^0.17.0",
+       "lottie-react": "^2.4.1",
     "smooth-scrollbar": "^8.8.4",
     "styled-components": "^5.3.10",
     "swiper": "^9.4.1",
