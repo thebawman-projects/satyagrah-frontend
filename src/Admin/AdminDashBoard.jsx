@@ -71,16 +71,16 @@ export function AdminDashBoard() {
     fetchData();
   }, []);
 
-  const getAllData = async () => {
-    try {
-      const res = await axios.get("/form/allforms");
-      setData(res.data.forms);
-      setRowCountState(res.data.forms.length);
-    } catch (err) {
-      console.log(err);
-      toast.error("Failed to refresh data");
-    }
-  };
+  // const getAllData = async () => {
+  //   try {
+  //     const res = await axios.get("/form/allforms");
+  //     setData(res.data.forms);
+  //     setRowCountState(res.data.forms.length);
+  //   } catch (err) {
+  //     console.log(err);
+  //     toast.error("Failed to refresh data");
+  //   }
+  // };
 
   const handleDelete = async (id) => {
     try {
