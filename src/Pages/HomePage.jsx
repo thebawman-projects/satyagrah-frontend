@@ -16,20 +16,21 @@ import Popup from '../Components/Home/Popup'
 import YouTubeVideoCards from '../Components/YouTubeVideoCards'
 import FacebookEmbedPosts from '../Components/FacebookEmbedPosts'
 import BrochureDownload from "../Components/Home/BrochureDownload";
-
+import ScholarshipHero from "../Components/Home/ScholarshipHero";
 
 const HomePage = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
   return (
-    <div className=''>
-    <Navbar />
-    <Popup/>
-   <div className="pt-24"> 
+    <div>
+   <Navbar />
+      <Popup/>
+      <div className="pt-[5.5rem]"> 
       <Slider />
       </div>
-     <CourseHome />
+      <ScholarshipBanner/>
+      <CourseHome />
       <JSCounter />
       <RegistrationLinkCard />
       <BrochureDownload />
