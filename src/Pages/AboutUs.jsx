@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import Navbar from '../Components/Navbar/Navbar'
 import Footer from '../Components/Footer'
-// import MentorAbout from '../Components/MentorAbout'
 import Members from '../Components/Members'
 
 
@@ -12,8 +11,10 @@ const AboutUs = () => {
   return (
     <div>
         <Navbar />
-        <Members/>
-        {/* <MentorAbout /> */}
+      <div className="pt-24">
+        {" "}
+        <Members />{" "}
+      </div>
         <Footer />
     </div>
   )
