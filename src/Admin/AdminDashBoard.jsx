@@ -17,6 +17,11 @@ import { motion } from "framer-motion";
 export function AdminDashBoard() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 10,
+  });
+  const [rowCountState, setRowCountState] = useState(0);
   const [singleData, setSingleData] = useState({
     course: "",
     fullname: "",
@@ -55,6 +60,7 @@ export function AdminDashBoard() {
       try {
         const res = await axios.get("/form/allforms");
         setData(res.data.forms);
+        setRowCountState(res.data.forms.length);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -69,6 +75,7 @@ export function AdminDashBoard() {
     try {
       const res = await axios.get("/form/allforms");
       setData(res.data.forms);
+      setRowCountState(res.data.forms.length);
     } catch (err) {
       console.log(err);
       toast.error("Failed to refresh data");
@@ -78,8 +85,8 @@ export function AdminDashBoard() {
   const handleDelete = async (id) => {
     try {
       await axios.delete("/form/delete/" + id);
-      setData(data.filter((p) => p.id !== id));
-      getAllData();
+      setData(data.filter((p) => p._id !== id));
+      setRowCountState(rowCountState - 1);
       toast.success("Deleted Successfully");
     } catch (err) {
       console.log(err);
@@ -162,7 +169,7 @@ export function AdminDashBoard() {
     toggleModal();
   };
 
- const columns = [
+  const columns = [
     {
       field: "id",
       headerName: "ID",
@@ -248,20 +255,15 @@ export function AdminDashBoard() {
     },
   ];
 
-  const row = [];
-
-  data &&
-    data.forEach((item) => {
-      row.push({
-        id: item._id,
-        fullname: item.fullname,
-        course: item.course,
-        mobile: "+91 " + item.mobile,
-        email: item.email,
-        gender: item.gender,
-        caste: item.caste,
-      });
-    });
+  const rows = data.map((item, index) => ({
+    id: item._id,
+    fullname: item.fullname,
+    course: item.course,
+    mobile: "+91 " + item.mobile,
+    email: item.email,
+    gender: item.gender,
+    caste: item.caste,
+  }));
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -300,7 +302,7 @@ export function AdminDashBoard() {
               </div>
               
               <div className="text-sm text-gray-500">
-                Showing {row.length} records
+                Showing {rowCountState} records
               </div>
             </div>
             
@@ -312,88 +314,15 @@ export function AdminDashBoard() {
               ) : (
                 <div className="w-full h-full">
                   <DataGrid
-                    rows={row}
+                    rows={rows}
                     columns={columns}
-                    pageSize={10}
-                    rowsPerPageOptions={[5, 10, 20]}
-                    disableSelectionOnClick
-                    autoHeight={false}
+                    rowCount={rowCountState}
                     loading={loading}
-                    components={{
-                      Pagination: (props) => (
-                        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
-                          <div className="flex-1 flex justify-between sm:hidden">
-                            <button
-                              onClick={() => props.onPageChange(props.page - 1)}
-                              disabled={props.page === 0}
-                              className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                            >
-                              Previous
-                            </button>
-                            <button
-                              onClick={() => props.onPageChange(props.page + 1)}
-                              disabled={!props.hasNextPage}
-                              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                            >
-                              Next
-                            </button>
-                          </div>
-                          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                            <div>
-                              <p className="text-sm text-gray-700">
-                                Showing <span className="font-medium">{(props.page * props.pageSize) + 1}</span> to{' '}
-                                <span className="font-medium">
-                                  {Math.min((props.page + 1) * props.pageSize, props.rowCount)}
-                                </span>{' '}
-                                of <span className="font-medium">{props.rowCount}</span> results
-                              </p>
-                            </div>
-                            <div>
-                              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                <button
-                                  onClick={() => props.onPageChange(props.page - 1)}
-                                  disabled={props.page === 0}
-                                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                  <span className="sr-only">Previous</span>
-                                  <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-                                  </svg>
-                                </button>
-                                {[...Array(props.pageCount)].map((_, index) => (
-                                  <button
-                                    key={index}
-                                    onClick={() => props.onPageChange(index)}
-                                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                                      props.page === index
-                                        ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
-                                        : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                                    }`}
-                                  >
-                                    {index + 1}
-                                  </button>
-                                ))}
-                                <button
-                                  onClick={() => props.onPageChange(props.page + 1)}
-                                  disabled={props.page >= props.pageCount - 1}
-                                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                  <span className="sr-only">Next</span>
-                                  <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                  </svg>
-                                </button>
-                              </nav>
-                            </div>
-                          </div>
-                        </div>
-                      ),
-                      LoadingOverlay: () => (
-                        <div className="flex justify-center items-center h-full">
-                          <PulseLoader color="#3B82F6" size={15} />
-                        </div>
-                      ),
-                    }}
+                    pageSizeOptions={[5, 10, 20]}
+                    paginationModel={paginationModel}
+                    paginationMode="client"
+                    onPaginationModelChange={setPaginationModel}
+                    disableSelectionOnClick
                     sx={{
                       '& .MuiDataGrid-columnHeaders': {
                         backgroundColor: '#f3f4f6',
