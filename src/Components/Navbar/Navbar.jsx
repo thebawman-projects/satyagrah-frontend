@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaRobot } from 'react-icons/fa';
+import { FaBars, FaTimes, FaAngleUp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import sankalplogo from '../../images/sankalp.png';
 
@@ -143,8 +143,8 @@ const Navbar = () => {
                     ease: 'linear',
                   }}
                 />
-                <FaRobot className="mr-2 text-yellow-200 group-hover:animate-bounce relative z-10" />
-                <span className="relative z-10">Register Now</span>
+                <FaAngleUp className="mr-2 text-yellow-200 group-hover:animate-bounce relative z-10" />
+                <span className="relative z-10">Registration</span>
                 <motion.span
                   className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"
                 />
@@ -162,8 +162,8 @@ const Navbar = () => {
                 to="/registration"
                 className="flex items-center px-3 py-1.5 rounded-full text-xs font-medium text-white bg-gradient-to-r from-purple-500 to-pink-500 shadow-md"
               >
-                <FaRobot className="mr-1" />
-                Register
+                <FaAngleUp className="mr-1" />
+                Apply Now
               </Link>
             </motion.div>
 
@@ -235,7 +235,7 @@ const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                   className="flex items-center justify-center px-4 py-3 w-full text-lg font-medium text-white bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 rounded-md hover:from-purple-600 hover:via-pink-600 hover:to-yellow-600 transition-all duration-500 shadow-lg"
                 >
-                  <FaRobot className="mr-2 animate-bounce" />
+                  <FaAngleUp className="mr-2 animate-bounce" />
                   Register Now
                 </Link>
               </motion.div>
