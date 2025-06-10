@@ -29,7 +29,7 @@ const HomePage = () => {
       <div className="pt-[5.5rem]"> 
       <Slider />
       </div>
-      <ScholarshipBanner/>
+      <ScholarshipHero/>
       <CourseHome />
       <JSCounter />
       <RegistrationLinkCard />
