@@ -57,16 +57,16 @@ export function PaymentsAdmin() {
     fetchData();
   }, []);
 
-  const getAllData = async () => {
-    try {
-      const res = await axios.get("/payment/allpayments");
-      setData(res.data.payments);
-      setRowCountState(res.data.payments.length);
-    } catch (err) {
-      console.log(err);
-      toast.error("Failed to refresh data");
-    }
-  };
+  // const getAllData = async () => {
+  //   try {
+  //     const res = await axios.get("/payment/allpayments");
+  //     setData(res.data.payments);
+  //     setRowCountState(res.data.payments.length);
+  //   } catch (err) {
+  //     console.log(err);
+  //     toast.error("Failed to refresh data");
+  //   }
+  // };
 
   const handleDelete = async (id) => {
     try {
