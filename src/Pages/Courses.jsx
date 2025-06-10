@@ -9,8 +9,12 @@ const Courses = () => {
   }, [])
   return (
     <div>
-        <Navbar />
+       <Navbar />
+        {/* <CourseHead/> */}
+        <div className="pt-[5.5rem]"> 
         <CourseCard />
+        </div>
+        {/* <CourseCard/> */}
         <Footer/>
     </div>
   )
