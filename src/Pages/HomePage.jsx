@@ -25,8 +25,10 @@ const HomePage = () => {
   return (
     <div className=''>
     <Navbar />
-    <Popup className="absolute z-20"/>
-    <Slider  />
+    <Popup/>
+   <div className="pt-24"> 
+      <Slider />
+      </div>
      <CourseHome />
       <JSCounter />
       <RegistrationLinkCard />
