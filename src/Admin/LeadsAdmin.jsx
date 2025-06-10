@@ -10,7 +10,7 @@ import {
   gridPageSizeSelector
 } from '@mui/x-data-grid';
 import { toast } from "react-hot-toast";
-import { BsDownload, BsFileEarmarkExcel, BsFileEarmarkPdf } from "react-icons/bs";
+import { BsBoxArrowLeft, BsFileEarmarkExcel, BsFileEarmarkPdf } from "react-icons/bs";
 import { RiDeleteBack2Line } from "react-icons/ri";
 import { FiEye, FiX } from "react-icons/fi";
 import { jsPDF } from "jspdf";
@@ -421,17 +421,12 @@ export function LeadsAdmin() {
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
+                  onClick={toggleModal}
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
                 >
-                  <BsDownload className="mr-2" />
-                  Download Details
-                </motion.button>
-                <button
-                  onClick={toggleModal}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                >
+                  <BsBoxArrowLeft className="mr-2" />
                   Close
-                </button>
+                </motion.button>
               </div>
             </motion.div>
           </div>
