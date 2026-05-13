@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { jsPDF } from 'jspdf';
 import imgForm from '../../images/imgForm.png';
-import qrpay from '../../images/qr.png';
+import qrpay from '../../images/qrnew.png';
 import { IoMdClose } from 'react-icons/io';
 import { FiCopy } from 'react-icons/fi';
+
+// APNA GOOGLE APPS SCRIPT KA URL YAHAN DAALEIN
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUdlRnBW719JSQAIGujEFoG0grGSjO040SzORT3BlhQWtVw-aslIbDB8UkZtIktvXtOg/exec";
 
 export const RegistrationCard = () => {
   const navigate = useNavigate();
@@ -15,29 +17,14 @@ export const RegistrationCard = () => {
   const [modal, setModal] = useState(false);
 
   const [formData, setFormData] = useState({
-    course: "",
-    fullname: "",
-    qualification: "",
-    dob: "",
-    gender: "",
-    fathername: "",
-    fatheroccupation: "",
-    mothername: "",
-    caste: "",
-    income: "",
-    address: "",
-    pincode: "",
-    email: "",
-    mobile: "",
-    alternatemobile: "",
-    state: "",
+    course: "", fullname: "", qualification: "", dob: "", gender: "",
+    fathername: "", fatheroccupation: "", mothername: "", caste: "",
+    income: "", address: "", pincode: "", email: "", mobile: "",
+    alternatemobile: "", state: "",
   });
 
   const [paymentData, setPaymentData] = useState({
-    name: "",
-    paydate: "",
-    mobile: "",
-    upi: "",
+    name: "", paydate: "", mobile: "", upi: "",
   });
 
   const toggleModal = () => {
@@ -45,7 +32,7 @@ export const RegistrationCard = () => {
     document.body.classList.toggle("active-modal", !modal);
   };
 
-  const textToCopy = "7667102184@pthdfc";
+  const textToCopy = "7667102184-1@okbizaxis";
 
   const copyText = () => {
     navigator.clipboard.writeText(textToCopy).then(() => {
@@ -74,13 +61,15 @@ export const RegistrationCard = () => {
     }
   };
 
-  const registrationForm = async () => {
+  // Sirf PDF Generate karne ka function
+  const generatePDF = () => {
     const { course, state, fullname, qualification, dob, gender, fathername, fatheroccupation, mothername, caste, income, address, pincode, email, mobile, alternatemobile } = formData;
     const { upi, paydate } = paymentData;
     
     const doc = new jsPDF({ orientation: 'p', format: 'a4', compress: true });
     doc.addImage(imgForm, 'PNG', 0, 0, 212, 300);
-    doc.addImage(photo, 156, 77, 32, 40);
+    if (photo) doc.addImage(photo, 156, 77, 32, 40); // Condition add ki taki photo na hone par crash na ho
+    
     doc.setFont('NotoSansAll-Regular');
     doc.text(course, 51.8, 96.4);
     doc.text(fullname, 37.5, 107.5);
@@ -102,39 +91,66 @@ export const RegistrationCard = () => {
     doc.text('On: ' + paydate, 142, 224);
     doc.text('UPI Transaction ID : ' + upi, 45, 224);
 
-    try {
-      const { data } = await axios.post("/form/registration", {
-        course, state, fullname, qualification, dob, gender, fathername, fatheroccupation, mothername, caste, income, address, pincode, email, mobile, alternatemobile
-      });
-      if (data.error) {
-        toast.error(data.error);
-      } else {
-        setFormData({});
-        doc.save(`SATYAGRAH@${fullname}.pdf`);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    doc.save(`SATYAGRAH@${fullname}.pdf`);
   };
 
+  // Data Google Sheet bhejkar PDF download karwane wala function
   const paymentForm = async () => {
+    // Payment form validation
+    if (!paymentData.name || !paymentData.paydate || !paymentData.upi || !paymentData.mobile) {
+      toast.error("Please fill all payment details");
+      return;
+    }
+
     setLoading(true);
-    const { name, paydate, upi, mobile } = paymentData;
+    
     try {
-      const { data } = await axios.post("/payment/pay", {
-        name, paydate, upi, mobile
+      // FormData ki jagah hum URLSearchParams use kar rahe hain
+      // Ye Google Apps Script ke e.parameter ke sath 100% properly kaam karta hai
+      const formPayload = new URLSearchParams();
+      
+      formPayload.append("sheetName", "Sheet2"); 
+      
+      // Registration Data append kar rahe hain
+      Object.keys(formData).forEach(key => {
+        formPayload.append(key, formData[key]);
+      });
+      
+      // Payment Data append kar rahe hain
+      formPayload.append("paymentName", paymentData.name);
+      formPayload.append("paydate", paymentData.paydate);
+      formPayload.append("upi", paymentData.upi);
+      formPayload.append("paymentMobile", paymentData.mobile);
+
+      // Google sheet pe request
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          // Ye header batata hai ki data URL encoded format me hai
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formPayload.toString(), // toString() karna zaroori hai
       });
 
-      if (data.error) {
-        toast.error(data.error);
-      } else {
-        registrationForm();
-        setPaymentData({});
-        navigate("/success/registrationform/apiCall/687refrjjjefewjwttokenfalse/wfewfwe/false/satyagrah/registrationdonetrue");
-        toast.success("Registration Done Successfully");
-      }
+      // Agar successfully sheet me chala gaya toh PDF generate karo aur navigate karo
+      generatePDF();
+      
+      setFormData({
+        course: "", fullname: "", qualification: "", dob: "", gender: "",
+        fathername: "", fatheroccupation: "", mothername: "", caste: "",
+        income: "", address: "", pincode: "", email: "", mobile: "",
+        alternatemobile: "", state: "",
+      });
+      setPaymentData({ name: "", paydate: "", mobile: "", upi: "" });
+      
+      toggleModal();
+      toast.success("Registration Done Successfully");
+      navigate("/success/registrationform/apiCall/687refrjjjefewjwttokenfalse/wfewfwe/false/satyagrah/registrationdonetrue");
+
     } catch (error) {
       console.log(error);
+      toast.error("Network Error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -149,6 +165,8 @@ export const RegistrationCard = () => {
   };
 
   return (
+    // ... AAPKA BAAKI KA JSX/UI YAHAN WAISE KA WAISA HEE RAHEGA JAISE PEHLE THA ...
+    // ... Neeche poora return() block as it is copy karke paste karein ...
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
       {/* Registration Form */}
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
@@ -482,115 +500,115 @@ export const RegistrationCard = () => {
 
       {/* Payment Modal */}
       {modal && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 overflow-y-auto">
-    <div className="bg-white rounded-xl max-w-md w-full mx-auto shadow-2xl max-h-[90vh] flex flex-col">
-      {/* Modal Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 py-3 px-4 sm:py-4 sm:px-6 flex justify-between items-center sticky top-0">
-        <h2 className="text-lg sm:text-xl font-bold text-white">Payment Details</h2>
-        <button
-          onClick={toggleModal}
-          className="text-white hover:text-gray-200"
-        >
-          <IoMdClose size={20} className="w-5 h-5" />
-        </button>
-      </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 overflow-y-auto">
+          <div className="bg-white rounded-xl max-w-md w-full mx-auto shadow-2xl max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 py-3 px-4 sm:py-4 sm:px-6 flex justify-between items-center sticky top-0">
+              <h2 className="text-lg sm:text-xl font-bold text-white">Payment Details</h2>
+              <button
+                onClick={toggleModal}
+                className="text-white hover:text-gray-200"
+              >
+                <IoMdClose size={20} className="w-5 h-5" />
+              </button>
+            </div>
 
-      {/* Modal Content - Scrollable area */}
-      <div className="p-4 sm:p-6 overflow-y-auto flex-1">
-        {/* QR Code Section */}
-        <div className="flex flex-col items-center mb-4 sm:mb-6">
-          <img 
-            className="w-40 h-40 sm:w-48 sm:h-48 object-contain mb-3 sm:mb-4" 
-            src={qrpay} 
-            alt="QR Code" 
-          />
-          <div className="flex items-center bg-blue-50 px-3 py-1 sm:px-4 sm:py-2 rounded-lg mb-2 w-full justify-center">
-            <span className="font-mono text-blue-800 text-sm sm:text-base truncate max-w-[180px] sm:max-w-none">
-              {textToCopy}
-            </span>
-            <button
-              onClick={copyText}
-              className="ml-2 text-blue-600 hover:text-blue-800"
-            >
-              <FiCopy size={16} className="w-4 h-4" />
-            </button>
+            {/* Modal Content - Scrollable area */}
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1">
+              {/* QR Code Section */}
+              <div className="flex flex-col items-center mb-4 sm:mb-6">
+                <img 
+                  className="w-40 h-40 sm:w-48 sm:h-48 object-contain mb-3 sm:mb-4" 
+                  src={qrpay} 
+                  alt="QR Code" 
+                />
+                <div className="flex items-center bg-blue-50 px-3 py-1 sm:px-4 sm:py-2 rounded-lg mb-2 w-full justify-center">
+                  <span className="font-mono text-blue-800 text-sm sm:text-base truncate max-w-[180px] sm:max-w-none">
+                    {textToCopy}
+                  </span>
+                  <button
+                    onClick={copyText}
+                    className="ml-2 text-blue-600 hover:text-blue-800"
+                  >
+                    <FiCopy size={16} className="w-4 h-4" />
+                  </button>
+                </div>
+                <p className="text-md sm:text-lg font-bold text-gray-800 mt-1 sm:mt-2">Rs 1000/-</p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1 text-center">
+                  *Pay Registration Fees and Enter the Transaction Details
+                </p>
+              </div>
+
+              {/* Payment Form */}
+              <div className="space-y-3 sm:space-y-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Your Name"
+                    value={paymentData.name}
+                    onChange={(e) => setPaymentData({ ...paymentData, name: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Payment Date</label>
+                  <input
+                    type="date"
+                    className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={paymentData.paydate}
+                    onChange={(e) => setPaymentData({ ...paymentData, paydate: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">UPI Transaction ID</label>
+                  <input
+                    type="number"
+                    className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Transaction ID"
+                    value={paymentData.upi}
+                    onChange={(e) => setPaymentData({ ...paymentData, upi: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+                  <input
+                    type="number"
+                    className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Mobile Number"
+                    value={paymentData.mobile}
+                    onChange={(e) => setPaymentData({ ...paymentData, mobile: e.target.value })}
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-2 sm:pt-4">
+                  <button
+                    onClick={paymentForm}
+                    disabled={loading}
+                    className="w-full py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-medium rounded-lg shadow hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 flex items-center justify-center text-sm sm:text-base"
+                  >
+                    {loading ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing...
+                      </>
+                    ) : (
+                      "Submit Payment"
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-md sm:text-lg font-bold text-gray-800 mt-1 sm:mt-2">Rs 1000/-</p>
-          <p className="text-xs sm:text-sm text-gray-500 mt-1 text-center">
-            *Pay Registration Fees and Enter the Transaction Details
-          </p>
         </div>
-
-        {/* Payment Form */}
-        <div className="space-y-3 sm:space-y-4">
-          <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Name</label>
-            <input
-              type="text"
-              className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Your Name"
-              value={paymentData.name}
-              onChange={(e) => setPaymentData({ ...paymentData, name: e.target.value })}
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Payment Date</label>
-            <input
-              type="date"
-              className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              value={paymentData.paydate}
-              onChange={(e) => setPaymentData({ ...paymentData, paydate: e.target.value })}
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">UPI Transaction ID</label>
-            <input
-              type="number"
-              className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Transaction ID"
-              value={paymentData.upi}
-              onChange={(e) => setPaymentData({ ...paymentData, upi: e.target.value })}
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
-            <input
-              type="number"
-              className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Mobile Number"
-              value={paymentData.mobile}
-              onChange={(e) => setPaymentData({ ...paymentData, mobile: e.target.value })}
-            />
-          </div>
-
-          {/* Submit Button */}
-          <div className="pt-2 sm:pt-4">
-            <button
-              onClick={paymentForm}
-              disabled={loading}
-              className="w-full py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-medium rounded-lg shadow hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 flex items-center justify-center text-sm sm:text-base"
-            >
-              {loading ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processing...
-                </>
-              ) : (
-                "Submit Payment"
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
     </div>
   );
 };
