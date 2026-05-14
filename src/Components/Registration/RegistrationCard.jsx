@@ -109,7 +109,7 @@ export const RegistrationCard = () => {
       // Ye Google Apps Script ke e.parameter ke sath 100% properly kaam karta hai
       const formPayload = new URLSearchParams();
       
-      formPayload.append("sheetName", "Sheet2"); 
+      formPayload.append("sheetName", "Registration"); 
       
       // Registration Data append kar rahe hain
       Object.keys(formData).forEach(key => {
